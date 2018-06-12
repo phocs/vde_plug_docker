@@ -1,0 +1,146 @@
+{
+	"comment": "",
+	"ignore": "test",
+	"package": [
+		{
+			"checksumSHA1": "nFIO6ssZh1XRyK7mHRtezyX7aAU=",
+			"path": "github.com/Sirupsen/logrus",
+			"revision": "0dad3b6953e73d351ec8ebfd8a8c6b088d320381",
+			"revisionTime": "2018-05-15T15:40:58Z"
+		},
+		{
+			"checksumSHA1": "KmjnydoAbofMieIWm+it5OWERaM=",
+			"path": "github.com/alecthomas/template",
+			"revision": "a0175ee3bccc567396460bf5acd36800cb10c49c",
+			"revisionTime": "2016-04-05T07:15:01Z"
+		},
+		{
+			"checksumSHA1": "3wt0pTXXeS+S93unwhGoLIyGX/Q=",
+			"path": "github.com/alecthomas/template/parse",
+			"revision": "a0175ee3bccc567396460bf5acd36800cb10c49c",
+			"revisionTime": "2016-04-05T07:15:01Z"
+		},
+		{
+			"checksumSHA1": "fCc3grA7vIxfBru7R3SqjcW+oLI=",
+			"path": "github.com/alecthomas/units",
+			"revision": "2efee857e7cfd4f3d0138cc3cbb1b4966962b93a",
+			"revisionTime": "2015-10-22T06:55:26Z"
+		},
+		{
+			"checksumSHA1": "zg16zjZTQ9R89+UOLmEZxHgxDtM=",
+			"path": "github.com/coreos/go-systemd/activation",
+			"revision": "39ca1b05acc7ad1220e09f133283b8859a8b71ab",
+			"revisionTime": "2018-05-11T13:34:05Z"
+		},
+		{
+			"checksumSHA1": "jUfDG3VQsA2UZHvvIXncgiddpYA=",
+			"path": "github.com/docker/go-connections/sockets",
+			"revision": "7395e3f8aa162843a74ed6d48e79627d9792ac55",
+			"revisionTime": "2018-02-28T14:10:15Z"
+		},
+		{
+			"checksumSHA1": "vpdQhinBu4qOnlUzRAIA13MtI1E=",
+			"path": "github.com/docker/go-plugins-helpers/network",
+			"revision": "61cb8e2334204460162c8bd2417cd43cb71da66f",
+			"revisionTime": "2018-01-16T16:00:15Z"
+		},
+		{
+			"checksumSHA1": "e/cSY11dRBYpw1MpxpKLDG0NO28=",
+			"path": "github.com/docker/go-plugins-helpers/sdk",
+			"revision": "61cb8e2334204460162c8bd2417cd43cb71da66f",
+			"revisionTime": "2018-01-16T16:00:15Z"
+		},
+		{
+			"checksumSHA1": "1tVig0MtSkK3iYQOEVRtd1fNSzo=",
+			"path": "github.com/docker/libnetwork/types",
+			"revision": "67348f5260289ca8bd3a61a6f83bde656ba35765",
+			"revisionTime": "2018-05-21T17:30:27Z"
+		},
+		{
+			"checksumSHA1": "r8DeMJitYknFdygq2L2jJfLjEw8=",
+			"origin": "github.com/docker/libnetwork/vendor/github.com/ishidawataru/sctp",
+			"path": "github.com/ishidawataru/sctp",
+			"revision": "67348f5260289ca8bd3a61a6f83bde656ba35765",
+			"revisionTime": "2018-05-21T17:30:27Z"
+		},
+		{
+			"checksumSHA1": "CDKqstpG4wRqV0IqToVyKS28A1Y=",
+			"path": "github.com/phocs/vde_plug_docker",
+			"revision": "0c7ecf780451019311afc66a54390ffe318299d9",
+			"revisionTime": "2018-05-21T19:42:06Z"
+		},
+		{
+			"checksumSHA1": "6oISwBd0gS9V4anYkGLrfAzGvag=",
+			"path": "github.com/phocs/vde_plug_docker/datastore",
+			"revision": "0c7ecf780451019311afc66a54390ffe318299d9",
+			"revisionTime": "2018-05-21T19:42:06Z"
+		},
+		{
+			"checksumSHA1": "WoCDU7dUNccDAaOVxfkDE5jm3UY=",
+			"path": "github.com/phocs/vde_plug_docker/endpoint",
+			"revision": "0c7ecf780451019311afc66a54390ffe318299d9",
+			"revisionTime": "2018-05-21T19:42:06Z"
+		},
+		{
+			"checksumSHA1": "wLIKesmtyGo8sxC0CkbJzGondz8=",
+			"path": "github.com/phocs/vde_plug_docker/vdenet",
+			"revision": "0c7ecf780451019311afc66a54390ffe318299d9",
+			"revisionTime": "2018-05-21T19:42:06Z"
+		},
+		{
+			"checksumSHA1": "sZaLgMMf+AKwGE8mMvwdDCpHsQA=",
+			"path": "github.com/vishvananda/netlink",
+			"revision": "7c0b5944a3036fc8dc9f4cbf2f5c76dedd29af8b",
+			"revisionTime": "2018-04-08T13:56:38Z"
+		},
+		{
+			"checksumSHA1": "wN69Ln5aaBlq9NHYjowdyOAhbTQ=",
+			"path": "github.com/vishvananda/netlink/nl",
+			"revision": "7c0b5944a3036fc8dc9f4cbf2f5c76dedd29af8b",
+			"revisionTime": "2018-04-08T13:56:38Z"
+		},
+		{
+			"checksumSHA1": "qf37dJzNS2iXycH62ukEw+cleZY=",
+			"path": "github.com/vishvananda/netns",
+			"revision": "be1fbeda19366dea804f00efff2dd73a1642fdcc",
+			"revisionTime": "2017-11-10T22:28:10Z"
+		},
+		{
+			"checksumSHA1": "BGm8lKZmvJbf/YOJLeL1rw2WVjA=",
+			"path": "golang.org/x/crypto/ssh/terminal",
+			"revision": "1a580b3eff7814fc9b40602fd35256c63b50f491",
+			"revisionTime": "2018-05-14T23:55:10Z"
+		},
+		{
+			"checksumSHA1": "+ukkAI9DvJ59HlvJSTVWME5Rqcg=",
+			"path": "golang.org/x/net/internal/socks",
+			"revision": "57065200b4b034a1c8ad54ff77069408c2218ae6",
+			"revisionTime": "2018-05-18T17:41:52Z"
+		},
+		{
+			"checksumSHA1": "UrFs0T7kkYsUxJG5bsJt7KB8ejI=",
+			"path": "golang.org/x/net/proxy",
+			"revision": "57065200b4b034a1c8ad54ff77069408c2218ae6",
+			"revisionTime": "2018-05-18T17:41:52Z"
+		},
+		{
+			"checksumSHA1": "2YeDxLpLYDkQqqIjKjigC3QdGNY=",
+			"path": "golang.org/x/sys/unix",
+			"revision": "7c87d13f8e835d2fb3a70a2912c811ed0c1d241b",
+			"revisionTime": "2018-05-14T07:31:37Z"
+		},
+		{
+			"checksumSHA1": "+mZiO0TdI05VboObjo18vs4sEbg=",
+			"path": "golang.org/x/sys/windows",
+			"revision": "7c87d13f8e835d2fb3a70a2912c811ed0c1d241b",
+			"revisionTime": "2018-05-14T07:31:37Z"
+		},
+		{
+			"checksumSHA1": "sToCp8GThnMnsBzsHv+L/tBYQrQ=",
+			"path": "gopkg.in/alecthomas/kingpin.v2",
+			"revision": "947dcec5ba9c011838740e680966fd7087a71d0d",
+			"revisionTime": "2017-12-17T18:08:21Z"
+		}
+	],
+	"rootPath": "github.com/phocs/vde_plug_docker"
+}

@@ -1,0 +1,57 @@
+{
+  "description": "VDE network plugin for Docker",
+  "documentation": "https://github.com/phocs/vde_plug_docker.git",
+  "interface": {
+    "types": ["docker.networkdriver/1.0"],
+    "socket": "vde.sock"
+  },
+  "entrypoint": ["/vde_plug_docker"],
+  "network": {
+    "type": "host"
+  },
+  "mounts": [{
+      "source": "/usr",
+      "destination": "/usr",
+      "options": ["rbind","r"],
+      "type": "bind"
+    },
+    {
+      "source": "/lib",
+      "destination": "/lib",
+      "options": ["rbind","r"],
+      "type": "bind"
+    },
+    {
+      "source": "/lib64",
+      "destination": "/lib64",
+      "options": ["rbind","r"],
+      "type": "bind"
+    },
+    {
+      "source": "/etc",
+      "destination": "/etc",
+      "options": ["rbind","r"],
+      "type": "bind"
+    },
+    {
+      "source": "/root",
+      "destination": "/root",
+      "options": ["rbind","r"],
+      "type": "bind"
+    }
+  ],
+  "Env": [{
+    "Description": "",
+    "Name": "LD_LIBRARY_PATH",
+    "Value": "/usr/local/lib/"
+    }],
+  "linux": {
+    "capabilities": ["CAP_NET_ADMIN"],
+    "devices": [{
+      "path": "/dev/net/tun",
+      "type": "c",
+      "major": 10,
+      "minor": 200
+      }]
+  }
+}
