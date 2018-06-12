@@ -89,7 +89,6 @@ func (this *Driver) CreateNetwork(r *network.CreateNetworkRequest) error {
     ipv6pool = r.IPv6Data[0].Pool
     ipv6gateway = r.IPv6Data[0].Gateway
   }
-  log.Debugf("Sock [ %s ]", sock)
 
   this.mutex.Lock()
   defer this.mutex.Lock()
@@ -119,7 +118,7 @@ func (this *Driver) DeleteNetwork(r *network.DeleteNetworkRequest) error {
 	}
   if len(netw.Endpoints) == 0 {
     this.mutex.Lock()
-defer this.UpdateNUnlock()
+    defer this.UpdateNUnlock()
     delete(this.Networks, r.NetworkID)
     return nil
   }
@@ -142,7 +141,7 @@ func (this *Driver) CreateEndpoint(r *network.CreateEndpointRequest) (*network.C
     return nil, types.BadRequestErrorf("EndpointID already exists.")
   }
   this.mutex.Lock()
-defer this.UpdateNUnlock()
+  defer this.UpdateNUnlock()
   netw.Endpoints[r.EndpointID] = endpoint.NewEndpointStat(r)
   response := &network.CreateEndpointResponse{
     Interface: &network.EndpointInterface{},
@@ -163,7 +162,7 @@ func (this *Driver) DeleteEndpoint(r *network.DeleteEndpointRequest) error {
     return types.NotFoundErrorf("Endpoint not found.")
   }
   this.mutex.Lock()
-defer this.UpdateNUnlock()
+  defer this.UpdateNUnlock()
   this.Networks[r.NetworkID].Endpoints[r.EndpointID].DelLink()
   delete(this.Networks[r.NetworkID].Endpoints, r.EndpointID)
   return nil
@@ -198,7 +197,7 @@ func (this *Driver) Join(r *network.JoinRequest) (*network.JoinResponse, error) 
   }
 
   this.mutex.Lock()
-defer this.UpdateNUnlock()
+  defer this.UpdateNUnlock()
   if edpt.AddLink() != nil {
     return nil, types.RetryErrorf("Failed link create.")
   }
@@ -233,7 +232,7 @@ func (this *Driver) Leave(r *network.LeaveRequest) error {
     return types.NotFoundErrorf("Endpoint not found.")
   }
   this.mutex.Lock()
-defer this.UpdateNUnlock()
+  defer this.UpdateNUnlock()
   edpt.PlugStop()
   return nil
 }
