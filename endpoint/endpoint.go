@@ -7,9 +7,9 @@ import (
   "net"
   "errors"
   "crypto/rand"
+  log "github.com/Sirupsen/logrus"
   "github.com/vishvananda/netlink"
   "github.com/docker/go-plugins-helpers/network"
-  log "github.com/Sirupsen/logrus"
 )
 
 type EndpointStat struct {
