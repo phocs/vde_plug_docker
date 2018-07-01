@@ -22,6 +22,7 @@
 #define _GNU_SOURCE
 #include "vdeplug.h"
 #include <poll.h>
+#include <errno.h>
 #include <stdio.h>
 #include <fcntl.h>
 #include <stdlib.h>
@@ -38,9 +39,6 @@
 #include <sys/signalfd.h>
 #include <linux/if_tun.h>
 
-#define SUCCESS		1
-#define FAILURE		0
-
 struct vdeplug_t {
 	pthread_mutex_t mutex;
 	int plugged;
@@ -48,14 +46,8 @@ struct vdeplug_t {
 	char *url;
 };
 
-#define PTHREAD_MUTEX_INIT_LOCKED \
-	({pthread_mutex_t m = PTHREAD_MUTEX_INITIALIZER; pthread_mutex_lock(&m); m;})
-
-#define pthread_mutex_free(m_ptr) \
-		({pthread_mutex_unlock(m_ptr); pthread_mutex_destroy(m_ptr);})
-
-#define pthread_exit_failure(vpd) \
-		({vpd->plugged = FAILURE; pthread_mutex_unlock(&vpd->mutex); pthread_exit(NULL);})
+#define VDEPLUG_INIT(name, url)	{ PTHREAD_MUTEX_INITIALIZER, 0, name, url }
+#define VDEPLUG_POLL_INIT(fd) 	{ {-1, POLLIN, 0}, {fd, POLLIN, 0}, {-1, POLLIN, 0} }
 
 static int open_tap(char *name) {
   struct ifreq ifr;
@@ -73,25 +65,20 @@ static int open_tap(char *name) {
 }
 
 void *plug2tap(void *arg) {
-	struct vdeplug_t *vpd = arg;
-	char buf[VDE_ETHBUFSIZE];
-	int tapfd, n, i;
+	int tapfd;
 	VDECONN *conn;
-
-  if ((tapfd=open_tap(vpd->tap)) == -1)
-		pthread_exit_failure(vpd);
-  if ((conn=vde_open(vpd->url, "vde_plug_docker", NULL)) == NULL) {
-		close(tapfd);
-		pthread_exit_failure(vpd);
+	struct vdeplug_t *plug = arg;
+  if ((tapfd = open_tap(plug->tap)) == -1)
+		goto exit_failure;
+  if ((conn = vde_open(plug->url, "vde_plug_docker", NULL)) == NULL) {
+		close(tapfd); goto exit_failure;
 	}
-	pthread_mutex_unlock(&vpd->mutex);
+	pthread_mutex_unlock(&plug->mutex);
 
-	struct pollfd pfd[] = {
-		{-1, POLLIN, 0},
-		{tapfd, POLLIN, 0},
-		{-1, POLLIN, 0}
-	};
+	int n, i;
 	sigset_t mask;
+	char buf[VDE_ETHBUFSIZE];
+	struct pollfd pfd[] = { {-1, POLLIN, 0}, {tapfd, POLLIN, 0}, {-1, POLLIN, 0} };
   sigemptyset(&mask);
   sigaddset(&mask, SIGUSR1);
 	pthread_sigmask(SIG_BLOCK, &mask, NULL);
@@ -100,45 +87,49 @@ void *plug2tap(void *arg) {
 	while(ppoll(pfd, 3, NULL, &mask) >= 0) {
 		if (pfd[0].revents & POLLIN) {
 			n = vde_recv(conn, buf, VDE_ETHBUFSIZE, 0);
-			if (n == 0) goto terminate;
+			if(n == 0) goto terminate;
 			write(tapfd, buf, n);
 		}
 		if(pfd[1].revents & POLLIN) {
 			n = read(tapfd, buf, VDE_ETHBUFSIZE);
-			if (n == 0) goto terminate;
+			if(n == 0) goto terminate;
 			vde_send(conn, buf, n, 0);
 		}
-		if(pfd[2].revents & POLLIN) {
-			break;
-		}
+		if(pfd[2].revents & POLLIN)
+			goto terminate;
 	}
 terminate:
 	vde_close(conn);
 	close(tapfd);
   pthread_exit(NULL);
+exit_failure:
+	perror("VDEPLUG exit_failure");
+	plug->plugged = -1;
+	pthread_mutex_unlock(&plug->mutex);
+	pthread_exit(NULL);
 }
 
-uintptr_t vdeplug_start(char *tap_name, char *vde_url) {
-	pthread_t *th_ptr = malloc(sizeof(pthread_t));
-	struct vdeplug_t vpd = {
-		PTHREAD_MUTEX_INIT_LOCKED,
-		SUCCESS,
-		tap_name,
-		vde_url
-	};
-	if(pthread_create(th_ptr, NULL, plug2tap, &vpd) == 0) {
-		pthread_mutex_lock(&vpd.mutex);
-		pthread_mutex_free(&vpd.mutex);
-		if(vpd.plugged != SUCCESS) {
+uintptr_t vdeplug_join(char *tap_name, char *vde_url) {
+	pthread_t *th_ptr;
+	struct vdeplug_t plug = VDEPLUG_INIT(tap_name, vde_url);
+	if((th_ptr = malloc(sizeof(pthread_t))) == NULL)
+		return 0;
+	pthread_mutex_lock(&plug.mutex);
+	if(pthread_create(th_ptr, NULL, plug2tap, &plug) == 0) {
+		pthread_mutex_lock(&plug.mutex);
+		if(plug.plugged != 0) {
 			pthread_join(*th_ptr, NULL);
-			free(th_ptr);
-			return FAILURE;
+			free(th_ptr); th_ptr = NULL;
 		}
+	} else {
+		free(th_ptr); th_ptr = NULL;
 	}
-	return (uintptr_t)th_ptr;
+	pthread_mutex_unlock(&plug.mutex);
+	pthread_mutex_destroy(&plug.mutex);
+	return (uintptr_t) th_ptr;
 }
 
-void vdeplug_stop(uintptr_t th_ptr) {
+void vdeplug_leave(uintptr_t th_ptr) {
 	if(th_ptr != 0) { //if is running
 		pthread_kill(*((pthread_t *)th_ptr), SIGUSR1);
 		pthread_join(*((pthread_t *)th_ptr), NULL);

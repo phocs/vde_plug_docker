@@ -10,7 +10,7 @@ VDE network plugin for Docker
 $ docker plugin install phocs/vde
 ```
 
-### Repo Install
+### Git Install
 ```
 $ cd vde_plug_docker/
 $ make

@@ -1,59 +1,56 @@
 package datastore
 
 import (
-  "os"
+  "sync"
   "io/ioutil"
   "encoding/json"
   log "github.com/Sirupsen/logrus"
-
 )
 
-const datastorePath = "/etc/docker/vde_plug_docker.data"
-
-func New() {
-  f, err := os.OpenFile(datastorePath, os.O_CREATE, 0644)
-  if err != nil {
-    log.Warnf("Datastore Create: [ %s ]", err)
-    return
-  }
-  f.Close()
+type DataStore struct {
+  sync.Mutex
+  Path  string
 }
 
-func Remove() {
-  if err := os.Remove(datastorePath); err != nil {
-    log.Warnf("Datastore Remove: [ %s ]", err)
-  }
+const OpenMode = 0644
+
+var store = DataStore {
+  Path: "./datastore.json",
 }
 
-func Exists() bool {
-  _, err := os.Stat(datastorePath)
-  return (err == nil)
+func SetPath(path string) {
+  store.Path = path
 }
 
-/* Check if the storage file exists and is not corrupt */
-func Valid() bool {
-  var buf interface{}
-  data, err := ioutil.ReadFile(datastorePath)
-  jsonerr := json.Unmarshal(data, &buf)
-  return (err == nil && jsonerr == nil)
-}
-
-func Get(buf interface{}) {
-  data, err := ioutil.ReadFile(datastorePath)
-  if data != nil {
-    err = json.Unmarshal(data, &buf)
-  }
-  if err != nil {
-    log.Warnf("Datastore Get: [ %s ]", err)
+func Clean() {
+  store.Lock()
+  defer store.Unlock()
+  if err := ioutil.WriteFile(store.Path, nil, OpenMode); err != nil {
+    log.Warnf("Datastore.Clean: [ %s ]", err)
   }
 }
 
-func Put(buf interface{}) {
-  jsondata, err := json.Marshal(buf)
-  if jsondata != nil {
-    err = ioutil.WriteFile(datastorePath, jsondata, 0644)
+func Load(elem interface{}) error {
+  var err error
+  store.Lock()
+  defer store.Unlock()
+  if buf, err := ioutil.ReadFile(store.Path); err == nil {
+    return json.Unmarshal(buf, &elem)
+  } else {
+    log.Warnf("Datastore.Load: [ %s ]", err)
+  }
+  return err
+}
+
+func Store(elem interface{}) error {
+  var err error
+  if buf, err := json.Marshal(&elem); err == nil {
+    store.Lock()
+    err = ioutil.WriteFile(store.Path, buf, OpenMode)
+    store.Unlock()
   }
   if err != nil {
-    log.Warnf("Datastore Put: [ %s ]", err)
+    log.Warnf("Datastore.Store: [ %s ]", err)
   }
+  return err
 }

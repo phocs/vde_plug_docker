@@ -64,28 +64,28 @@
 			"revisionTime": "2018-06-08T20:38:34Z"
 		},
 		{
-			"checksumSHA1": "KwsCvIqHE+9LQsigQe2/acCiMIo=",
+			"checksumSHA1": "kB6iPjMr8NQrkn3OWt1+kndLUqs=",
 			"path": "github.com/phocs/vde_plug_docker",
-			"revision": "0bbcfa4efd5c2cff19cf99b92320794b55e0ac6c",
-			"revisionTime": "2018-06-12T15:11:00Z"
+			"revision": "f52d48f908e0a25398182ce0e21dab3da6f9fe94",
+			"revisionTime": "2018-06-15T19:33:31Z"
 		},
 		{
-			"checksumSHA1": "6oISwBd0gS9V4anYkGLrfAzGvag=",
+			"checksumSHA1": "f1T5rBRndFcTrIKlzKQyg36Gmqw=",
 			"path": "github.com/phocs/vde_plug_docker/datastore",
-			"revision": "0bbcfa4efd5c2cff19cf99b92320794b55e0ac6c",
-			"revisionTime": "2018-06-12T15:11:00Z"
+			"revision": "f52d48f908e0a25398182ce0e21dab3da6f9fe94",
+			"revisionTime": "2018-06-15T19:33:31Z"
 		},
 		{
-			"checksumSHA1": "qfII+/8vF80TB49SHe/6EWvqfAI=",
+			"checksumSHA1": "s6VSgUaKXG/JDEUc5WfWPKGV5gE=",
 			"path": "github.com/phocs/vde_plug_docker/endpoint",
-			"revision": "0bbcfa4efd5c2cff19cf99b92320794b55e0ac6c",
-			"revisionTime": "2018-06-12T15:11:00Z"
+			"revision": "f52d48f908e0a25398182ce0e21dab3da6f9fe94",
+			"revisionTime": "2018-06-15T19:33:31Z"
 		},
 		{
-			"checksumSHA1": "oMDuoGLElgcAarw55msO0KmHt5M=",
+			"checksumSHA1": "RTIYU3U+XErzUPqPgSH0HfVuems=",
 			"path": "github.com/phocs/vde_plug_docker/vdenet",
-			"revision": "0bbcfa4efd5c2cff19cf99b92320794b55e0ac6c",
-			"revisionTime": "2018-06-12T15:11:00Z"
+			"revision": "f52d48f908e0a25398182ce0e21dab3da6f9fe94",
+			"revisionTime": "2018-06-15T19:33:31Z"
 		},
 		{
 			"checksumSHA1": "sZaLgMMf+AKwGE8mMvwdDCpHsQA=",

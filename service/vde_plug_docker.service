@@ -1,11 +1,12 @@
 [Unit]
 Description=VDE network plugin for Docker
 Documentation=https://github.com/phocs/vde_plug_docker
-After=docker.service
-Requires=docker.service
+Before=docker.service
+After=network.target vde_plug_docker.socket
+Requires=vde_plug_docker.socket docker.service
 
 [Service]
-ExecStart=/usr/local/bin/vde_plug_docker
+ExecStart=/usr/lib/docker/vde_plug_docker
 Restart=on-failure
 
 [Install]

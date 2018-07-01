@@ -1,0 +1,9 @@
+[Unit]
+Description=VDE network plugin for Docker
+Documentation=https://github.com/phocs/vde_plug_docker
+
+[Socket]
+ListenStream=/run/docker/plugins/vde.sock
+
+[Install]
+WantedBy=sockets.target

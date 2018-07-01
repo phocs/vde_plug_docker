@@ -13,7 +13,7 @@ import (
 )
 
 type EndpointStat struct {
-  Vdeplug         uintptr `json:"-"` // ignore
+  Plugger         uintptr `json:"Plugger"`
   IfName          string  `json:"IfName"`
   SandboxKey      string  `json:"SandboxKey"`
   IPv4Address     string  `json:"IPv4Address"`
@@ -23,7 +23,7 @@ type EndpointStat struct {
 
 func NewEndpointStat(r *network.CreateEndpointRequest) (*EndpointStat) {
   new := EndpointStat{
-    Vdeplug:      0,
+    Plugger:      0,
     IfName:       "vde" + r.EndpointID[:11],
     SandboxKey:   "",
     IPv4Address:  r.Interface.Address,
@@ -36,7 +36,7 @@ func NewEndpointStat(r *network.CreateEndpointRequest) (*EndpointStat) {
   return &new
 }
 
-func (this *EndpointStat) AddLink() error {
+func (this *EndpointStat) LinkAdd() error {
   linkattrs := netlink.NewLinkAttrs()
   linkattrs.Name = this.IfName
   linkattrs.HardwareAddr, _ = net.ParseMAC(this.MacAddress)
@@ -45,32 +45,38 @@ func (this *EndpointStat) AddLink() error {
   tapdev.Flags = netlink.TUNTAP_NO_PI
   tapdev.Mode =  netlink.TUNTAP_MODE_TAP
 
+  if err := netlink.LinkAdd(tapdev); err != nil {
+    return err
+  }
   if ipv4, err := netlink.ParseAddr(this.IPv4Address); err == nil {
     netlink.AddrAdd(tapdev, ipv4)
   }
   if ipv6, err := netlink.ParseAddr(this.IPv6Address); err == nil {
     netlink.AddrAdd(tapdev, ipv6)
   }
-  return netlink.LinkAdd(tapdev)
+  return nil
 }
 
-func (this *EndpointStat) DelLink() {
-  link, _ := netlink.LinkByName(this.IfName)
-  netlink.LinkDel(link)
+func (this *EndpointStat) LinkDel() error {
+  var err error
+  if link, err := netlink.LinkByName(this.IfName); err == nil {
+    err = netlink.LinkDel(link)
+  }
+  return err
 }
 
-func (this *EndpointStat) PlugLinkTo(sock string) error {
-  log.Debugf("PlugLinkTo [ %s ] [ %s ]",   this.IfName, sock)
-  this.Vdeplug = uintptr(C.vdeplug_start(C.CString(this.IfName), C.CString(sock)))
-  if this.Vdeplug == 0 {
-    return errors.New("PlugLinkTo error: " + this.IfName + " to " + sock)
+func (this *EndpointStat) LinkPlugTo(sock string) error {
+  log.Debugf("LinkPlugTo [ %s ] [ %s ]", this.IfName, sock)
+  this.Plugger = uintptr(C.vdeplug_join(C.CString(this.IfName), C.CString(sock)))
+  if this.Plugger == 0 {
+    return errors.New("LinkPlugTo error: " + this.IfName + " to " + sock)
   }
   return nil
 }
 
-func (this *EndpointStat) PlugStop() {
-  C.vdeplug_stop(C.uintptr_t(this.Vdeplug));
-  this.Vdeplug = 0
+func (this *EndpointStat) LinkPlugStop() {
+  C.vdeplug_leave(C.uintptr_t(this.Plugger));
+  this.Plugger = 0
 }
 
 /*Copied from include/linux/etherdevice.h

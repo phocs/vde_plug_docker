@@ -1,6 +1,6 @@
 {
   "description": "VDE network plugin for Docker",
-  "documentation": "https://github.com/phocs/vde_plug_docker.git",
+  "documentation": "https://github.com/phocs/vde_plug_docker",
   "interface": {
     "types": ["docker.networkdriver/1.0"],
     "socket": "vde.sock"
