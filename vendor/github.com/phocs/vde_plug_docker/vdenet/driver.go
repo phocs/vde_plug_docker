@@ -52,11 +52,12 @@ func NewDriver(storepath string, clean bool) Driver {
 
 /* CapabilitiesResponse returns whether or not this network is global or local, */
 func (this *Driver) GetCapabilities() (*network.CapabilitiesResponse, error) {
-  return &network.CapabilitiesResponse{ Scope: network.GlobalScope }, nil
+  return &network.CapabilitiesResponse{ Scope: network.LocalScope }, nil
 }
 
 func (this *Driver) CreateNetwork(r *network.CreateNetworkRequest) error {
-  var sock, ifprefix, ipv6pool, ipv6gateway string
+	log.Debugf("Createnetwork Request: [ %+v ]", r)
+	var sock, ifprefix, ipv6pool, ipv6gateway string
   opt := r.Options["com.docker.network.generic"].(map[string]interface{})
   if r.IPv4Data == nil || len(r.IPv4Data) == 0 {
 		return types.BadRequestErrorf("Network IPv4Data config miss.")
