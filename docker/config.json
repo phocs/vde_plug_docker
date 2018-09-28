@@ -10,33 +10,9 @@
     "type": "host"
   },
   "mounts": [{
-      "source": "/usr",
-      "destination": "/usr",
-      "options": ["rbind","r"],
-      "type": "bind"
-    },
-    {
-      "source": "/lib",
-      "destination": "/lib",
-      "options": ["rbind","r"],
-      "type": "bind"
-    },
-    {
-      "source": "/lib64",
-      "destination": "/lib64",
-      "options": ["rbind","r"],
-      "type": "bind"
-    },
-    {
-      "source": "/etc",
-      "destination": "/etc",
-      "options": ["rbind","r"],
-      "type": "bind"
-    },
-    {
-      "source": "/root",
-      "destination": "/root",
-      "options": ["rbind","r"],
+      "source": "/tmp",
+      "destination": "/tmp",
+      "options": ["rbind","rw"],
       "type": "bind"
     }
   ],
