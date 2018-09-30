@@ -56,11 +56,11 @@ Run containers:
 # docker run -it --net vdenet --ip 10.10.0.2 debian
 # docker run -it --net vdenet --ip 10.10.0.3 debian
 # ping 10.10.0.2
-	PING 10.10.0.2 (10.10.0.2) 56(84) bytes of data.
-      64 bytes from 10.10.0.2: icmp_seq=1 ttl=64 time=0.573 ms
-      64 bytes from 10.10.0.2: icmp_seq=2 ttl=64 time=0.373 ms
-      64 bytes from 10.10.0.2: icmp_seq=3 ttl=64 time=0.293 ms
-      64 bytes from 10.10.0.2: icmp_seq=4 ttl=64 time=0.365 ms
+   PING 10.10.0.2 (10.10.0.2) 56(84) bytes of data.
+    64 bytes from 10.10.0.2: icmp_seq=1 ttl=64 time=0.573 ms
+    64 bytes from 10.10.0.2: icmp_seq=2 ttl=64 time=0.373 ms
+    64 bytes from 10.10.0.2: icmp_seq=3 ttl=64 time=0.293 ms
+    64 bytes from 10.10.0.2: icmp_seq=4 ttl=64 time=0.365 ms
 
 ```
 
@@ -71,9 +71,9 @@ $ kvm ... -net nic,macaddr=52:54:00:11:22:11 -net vde,sock=vxvde://239.1.2.3
 # ip link set eth0 up
 # ip addr add 10.10.0.42/24 dev eth0
 # ping 10.10.0.2          [container 1]
-	PING 10.10.0.2 (10.10.0.2) 56(84) bytes of data.
-	  64 bytes from 10.10.0.2: icmp_seq=1 ttl=64 time=0.674 ms
-      64 bytes from 10.10.0.2: icmp_seq=2 ttl=64 time=0.252 ms
-      64 bytes from 10.10.0.2: icmp_seq=3 ttl=64 time=0.332 ms
-      64 bytes from 10.10.0.2: icmp_seq=4 ttl=64 time=0.472 ms
+   PING 10.10.0.2 (10.10.0.2) 56(84) bytes of data.
+    64 bytes from 10.10.0.2: icmp_seq=1 ttl=64 time=0.674 ms
+    64 bytes from 10.10.0.2: icmp_seq=2 ttl=64 time=0.252 ms
+    64 bytes from 10.10.0.2: icmp_seq=3 ttl=64 time=0.332 ms
+    64 bytes from 10.10.0.2: icmp_seq=4 ttl=64 time=0.472 ms
 ```
