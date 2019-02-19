@@ -4,6 +4,10 @@ vde_plug_docker implements the concept of Virtual Distributed Container. It's a 
 
 The plugin is responsible for providing the access point to the VDE network. The construction and management of the latter it's outside the plugin's competence. 
 
+### Doc References
+
+https://drive.google.com/drive/folders/1nV5Kku1676_cLKRgJ8m9d7ozMa9X7VVi
+
 ### Dependencies
 - go >= 1.7.4
 - libvdeplug: https://github.com/rd235/vdeplug4
